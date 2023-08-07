@@ -2,8 +2,8 @@ use ark_std::{end_timer, start_timer};
 
 use std::{collections::HashMap, env, env::current_dir, time::Instant};
 
-use ff::derive::bitvec::vec;
-use ff::PrimeField;
+
+
 use nova_scotia::{
     circom::{circuit::CircomCircuit, reader::load_r1cs},
     create_public_params, create_public_params_par, create_recursive_circuit, FileLocation, F1, F2,
@@ -12,13 +12,13 @@ use nova_scotia::{
 // Ignore create_recursive_circuit
 
 use nova_snark::{
-    parallel_prover::{FoldInput, NovaTreeNode, PublicParams},
+    parallel_prover::{FoldInput},
     traits::{circuit::TrivialTestCircuit, Group},
     CompressedSNARK,
 };
-use num_bigint::BigInt;
-use num_traits::Num;
-use serde::{Deserialize, Serialize};
+
+
+
 use serde_json::json;
 
 use sha2::{Digest, Sha256};
@@ -105,7 +105,7 @@ fn recursive_hashing(depth: usize) {
     // verify the recursive SNARK
     println!("Verifying a RecursiveSNARK...");
     let timer_verify_snark = start_timer!(|| "verify SNARK");
-    let start = Instant::now();
+    let _start = Instant::now();
     let res = recursive_snark.verify(
         &pp,
         iteration_count,
@@ -119,7 +119,7 @@ fn recursive_hashing(depth: usize) {
     // produce a compressed SNARK
     let timer_gen_compressed_snark =
         start_timer!(|| "Generate a CompressedSNARK using Spartan with IPA-PC");
-    let start = Instant::now();
+    let _start = Instant::now();
     let (pk, vk) = CompressedSNARK::<_, _, _, _, S1, S2>::setup(&pp).unwrap();
     let res = CompressedSNARK::<_, _, _, _, S1, S2>::prove(&pp, &pk, &recursive_snark);
     assert!(res.is_ok());
@@ -127,7 +127,7 @@ fn recursive_hashing(depth: usize) {
     end_timer!(timer_gen_compressed_snark);
 
     let timer_verify_compressed_snark = start_timer!(|| "Verify CompressedSNARK");
-    let start = Instant::now();
+    let _start = Instant::now();
     let res = compressed_snark.verify(
         &vk,
         iteration_count,
