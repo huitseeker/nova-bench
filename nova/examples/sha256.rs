@@ -41,6 +41,7 @@ fn recursive_hashing(depth: usize) {
     let root = current_dir().unwrap();
 
     let circuit_file = root.join("./examples/sha256/circom/sha256_test_nova.r1cs");
+
     let r1cs = load_r1cs(&FileLocation::PathBuf(circuit_file));
     let witness_generator_file =
         root.join("./examples/sha256/circom/sha256_test_nova_cpp/sha256_test_nova");
